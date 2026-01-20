@@ -11,9 +11,16 @@ class Play extends Phaser.Scene {
         // add rocket (p1)
         this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, "rocket").setOrigin(0.5, 0);
         // add 3 spaceships
-        this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, "spaceship", 0, 30).setOrigin(0, 0);
-        this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, "spaceship", 0, 20).setOrigin(0,0);
-        this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, "spaceship", 0, 10).setOrigin(0,0);
+
+        this.ships = this.add.group();
+
+        this.ship01Timer = this.time.delayedCall(1000, () => {
+            this.ships.add(new Spaceship(this, game.config.width, borderUISize*4, "spaceship", 0, 30).setOrigin(0, 0));
+        }, null, this);
+        this.ship02Timer = this.time.delayedCall(500, () => {
+            this.ships.add(new Spaceship(this, game.config.width, borderUISize*5 + borderPadding*2, "spaceship", 0, 20).setOrigin(0,0));
+        }, null, this);
+        this.ships.add(new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, "spaceship", 0, 10).setOrigin(0,0));
         // white borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
@@ -67,6 +74,7 @@ class Play extends Phaser.Scene {
         this.timeDisplay.text = Math.ceil((game.settings.gameTimer - this.clock.elapsed) / 1000);
         // check key input for restart
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyRESET)) {
+            game.settings.spaceshipSpeed /= 1.5;
             this.scene.restart();
         }
         // or menu
@@ -78,30 +86,30 @@ class Play extends Phaser.Scene {
 
         if (!this.gameOver) {
             this.p1Rocket.update();
-            this.ship01.update();
-            this.ship02.update();
-            this.ship03.update();
-        }
-        
-
-        if (this.checkCollision(this.p1Rocket, this.ship03)) {
-            this.p1Rocket.reset();
-            this.shipExplode(this.ship03);
-        }
-        if (this.checkCollision(this.p1Rocket, this.ship02)) {
-            this.p1Rocket.reset();
-            this.shipExplode(this.ship02);
-        }
-        if (this.checkCollision(this.p1Rocket, this.ship01)) {
-            this.p1Rocket.reset();
-            this.shipExplode(this.ship01);
+            // https://www.html5gamedevs.com/topic/36580-best-way-to-apply-a-method-to-all-elements-in-a-group/
+            this.ships.children.each( function(ship) {
+                ship.update();
+            });
         }
 
+        // if (this.checkCollision(this.p1Rocket, this.ship03)) {
+        //     this.p1Rocket.reset();
+        //     this.shipExplode(this.ship03);
+        // }
+        // if (this.checkCollision(this.p1Rocket, this.ship02)) {
+        //     this.p1Rocket.reset();
+        //     this.shipExplode(this.ship02);
+        // }
+        // if (this.checkCollision(this.p1Rocket, this.ship01)) {
+        //     this.p1Rocket.reset();
+        //     this.shipExplode(this.ship01);
+        // }
 
-        console.log(this.clock.elapsed);
-        if (this.clock.elapsed > 5000 && !this.speedBoost) {
+
+        // increase speed after 30 sec
+        if (this.clock.elapsed > 30000 && !this.speedBoost) {
             this.speedBoost = true;
-            game.settings.spaceshipSpeed += 5;
+            game.settings.spaceshipSpeed *= 1.5;
         }
     }
 
