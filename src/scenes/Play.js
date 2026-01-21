@@ -22,10 +22,14 @@ class Play extends Phaser.Scene {
         }, null, this);
         this.ships.add(new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, "spaceship", 0, 10).setOrigin(0,0));
         // white borders
-        this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
+        let border1 = this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
+        let border2 = this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
+        let border3 = this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
+        let border4 = this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
+        border1.depth = 10000;
+        border2.depth = 10000;
+        border3.depth = 10000;
+        border4.depth = 10000;
         // define keys
         keyFIRE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyRESET = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -86,25 +90,19 @@ class Play extends Phaser.Scene {
 
         if (!this.gameOver) {
             this.p1Rocket.update();
+            // Iterating over each item in a group
             // https://www.html5gamedevs.com/topic/36580-best-way-to-apply-a-method-to-all-elements-in-a-group/
             this.ships.children.each( function(ship) {
                 ship.update();
             });
         }
 
-        // if (this.checkCollision(this.p1Rocket, this.ship03)) {
-        //     this.p1Rocket.reset();
-        //     this.shipExplode(this.ship03);
-        // }
-        // if (this.checkCollision(this.p1Rocket, this.ship02)) {
-        //     this.p1Rocket.reset();
-        //     this.shipExplode(this.ship02);
-        // }
-        // if (this.checkCollision(this.p1Rocket, this.ship01)) {
-        //     this.p1Rocket.reset();
-        //     this.shipExplode(this.ship01);
-        // }
-
+        this.ships.children.each( function(ship) {
+            if (this.checkCollision(this.p1Rocket, ship)) {
+                this.p1Rocket.reset();
+                this.shipExplode(ship);
+            }
+        }, this);
 
         // increase speed after 30 sec
         if (this.clock.elapsed > 30000 && !this.speedBoost) {
