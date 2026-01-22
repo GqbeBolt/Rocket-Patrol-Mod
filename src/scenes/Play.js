@@ -5,7 +5,9 @@ class Play extends Phaser.Scene {
 
     create() {
         // place the tile sprite
-        this.starfield = this.add.tileSprite(0, 0, 640, 480, "starfield").setOrigin(0, 0);
+        this.bg0 = this.add.tileSprite(0, 0, 640, 480, "bg0").setOrigin(0, 0);
+        this.bg1 = this.add.tileSprite(0, 0, 640, 480, "bg1").setOrigin(0, 0);
+        this.bg2 = this.add.tileSprite(0, 0, 640, 480, "bg2").setOrigin(0, 0);
         // green UI background
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
         // add rocket (p1)
@@ -86,7 +88,8 @@ class Play extends Phaser.Scene {
             this.scene.start("menuScene");
         }
 
-        this.starfield.tilePositionX -= 4;
+        this.bg1.tilePositionX -= 1;
+        this.bg2.tilePositionX -= 3;
 
         if (!this.gameOver) {
             this.p1Rocket.update();

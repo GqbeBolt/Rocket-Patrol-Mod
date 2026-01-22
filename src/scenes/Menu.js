@@ -7,7 +7,9 @@ class Menu extends Phaser.Scene {
         // load images/tile sprites
         this.load.image("rocket", "./assets/rocket.png");
         this.load.image("spaceship", "./assets/spaceship.png");
-        this.load.image("starfield", "./assets/starfield.png");
+        this.load.image("bg0", "./assets/BGLayer1.png");
+        this.load.image("bg1", "./assets/BGLayer2.png");
+        this.load.image("bg2", "./assets/BGLayer3.png");
         // load explosion spritesheet
         this.load.spritesheet("explosion",  "./assets/explosion.png", {
             frameWidth: 64,
@@ -59,8 +61,8 @@ class Menu extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             // easy mode
             game.settings = {
-            spaceshipSpeed: 3,
-            gameTimer: 60000    
+                spaceshipSpeed: 3,
+                gameTimer: 60000    
             };   
             this.sound.play('sfx-select');
             this.scene.start('playScene'); 
@@ -68,8 +70,8 @@ class Menu extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             // hard mode
             game.settings = {
-            spaceshipSpeed: 4,
-            gameTimer: 45000    
+                spaceshipSpeed: 4,
+                gameTimer: 45000    
             };
             this.sound.play('sfx-select');
             this.scene.start('playScene'); 

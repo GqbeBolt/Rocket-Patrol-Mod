@@ -1,7 +1,7 @@
 /*
 Name: Gabriel Rybolt
 Title: Rocket Patrol Remastered (Name in Progress)
-Hours taken: 3
+Hours taken: 5
 Mods: 4 Points Total
     - Paralax Background (3)
     - Display Time Remaining (3) ✓
