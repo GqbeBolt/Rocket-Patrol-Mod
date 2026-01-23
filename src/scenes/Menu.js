@@ -6,7 +6,8 @@ class Menu extends Phaser.Scene {
     preload() {
         // load images/tile sprites
         this.load.image("rocket", "./assets/rocket.png");
-        this.load.image("spaceship", "./assets/spaceship.png");
+        this.load.image("spaceship", "./assets/spaceshipBig.png");
+        this.load.image("ufo", "./assets/spaceshipSmall.png");
         this.load.image("bg0", "./assets/BGLayer1.png");
         this.load.image("bg1", "./assets/BGLayer2.png");
         this.load.image("bg2", "./assets/BGLayer3.png");

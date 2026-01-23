@@ -6,6 +6,9 @@ class Spaceship extends Phaser.GameObjects.Sprite {
         this.moveSpeed = game.settings.spaceshipSpeed;
         this.flipped = false;
 
+        this.ufo = false;
+        if (texture == "ufo") this.ufo = true;
+
         if (Math.floor(Math.random() * 2) == 0) {
             this.moveSpeed *= -1;
             this.setFlipX(true);
@@ -26,8 +29,18 @@ class Spaceship extends Phaser.GameObjects.Sprite {
         // wrap from left to right edge
         if (this.x <= 0 - this.width*2) {
             this.reset();
+            if (ufo) {
+                this.y += borderUISize * 4;
+            }
         } else if (this.x >= game.config.width + this.width) {
             this.resetOtherSide();
+            if (ufo) {
+                this.y += borderUISize * 4;
+            }
+        }
+
+        if (this.y > borderUISize*12) {
+            this.destroy();
         }
     }
 

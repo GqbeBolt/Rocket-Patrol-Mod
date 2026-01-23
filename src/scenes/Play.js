@@ -23,6 +23,13 @@ class Play extends Phaser.Scene {
             this.ships.add(new Spaceship(this, game.config.width, borderUISize*5 + borderPadding*2, "spaceship", 0, 20).setOrigin(0,0));
         }, null, this);
         this.ships.add(new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, "spaceship", 0, 10).setOrigin(0,0));
+        // the ufo
+        this.ship02Timer = this.time.delayedCall(500, () => {
+            this.ships.add(new Spaceship(this, game.config.width, borderUISize*5 + borderPadding*2, "spaceship", 0, 20).setOrigin(0,0));
+        }, null, this);
+        this.ufoTimer = this.time.delayedCall(Math.floor(Math.random() * 5000), () => {
+            this.ships.add(new Spaceship(this, game.config.width, borderUISize*5 + borderPadding*2, "ufo", 0, 100).setOrigin(0,0));
+        }, null, this);
         // white borders
         let border1 = this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
         let border2 = this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
@@ -98,6 +105,8 @@ class Play extends Phaser.Scene {
             this.ships.children.each( function(ship) {
                 ship.update();
             });
+
+            
         }
 
         this.ships.children.each( function(ship) {
