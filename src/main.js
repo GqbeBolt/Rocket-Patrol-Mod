@@ -1,14 +1,15 @@
 /*
 Name: Gabriel Rybolt
 Title: Rocket Patrol Remastered (Name in Progress)
-Hours taken: 5.5
+Hours taken: 8
 Mods: 8 Points Total
     - Paralax Background (3) ✓
     - Display Time Remaining (3) ✓
     - New Title Screen (3)
-    - Create a New Scrolling Background (1) ✓
     - Speed boost after 30 seconds (1) ✓
     - Randomize spaceship direction (1) ✓
+    - New Spaceship Type (5)
+    - Mouse control for Player Movement (5)
 Citations:
 Play.js (94) https://www.html5gamedevs.com/topic/36580-best-way-to-apply-a-method-to-all-elements-in-a-group/
 */

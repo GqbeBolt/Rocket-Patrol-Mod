@@ -79,6 +79,8 @@ class Play extends Phaser.Scene {
         scoreConfig.fixedWidth = 0;
         
         this.speedBoost = false;
+        this.speedDisplay = this.add.text(game.config.width, borderUISize + borderPadding*2, "SPEED UP!");
+        this.speedDisplay.setActive(false);
     }
 
     update() {
@@ -94,8 +96,8 @@ class Play extends Phaser.Scene {
             this.scene.start("menuScene");
         }
 
-        this.bg1.tilePositionX -= 1;
-        this.bg2.tilePositionX -= 3;
+        this.bg1.tilePositionX -= game.settings.spaceshipSpeed * 0.5;
+        this.bg2.tilePositionX -= game.settings.spaceshipSpeed * 0.8;
 
         if (!this.gameOver) {
             this.p1Rocket.update();
@@ -118,6 +120,7 @@ class Play extends Phaser.Scene {
         // increase speed after 30 sec
         if (this.clock.elapsed > 30000 && !this.speedBoost) {
             this.speedBoost = true;
+            this.speedDisplay.setActive(true);
             game.settings.spaceshipSpeed *= 1.5;
         }
     }
