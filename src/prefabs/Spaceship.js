@@ -29,13 +29,13 @@ class Spaceship extends Phaser.GameObjects.Sprite {
         // wrap from left to right edge
         if (this.x <= 0 - this.width*2) {
             this.reset();
-            if (ufo) {
-                this.y += borderUISize * 4;
+            if (this.ufo) {
+                this.y += borderUISize * 2;
             }
         } else if (this.x >= game.config.width + this.width) {
             this.resetOtherSide();
-            if (ufo) {
-                this.y += borderUISize * 4;
+            if (this.ufo) {
+                this.y += borderUISize * 2;
             }
         }
 
