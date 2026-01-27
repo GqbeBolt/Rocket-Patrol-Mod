@@ -24,19 +24,32 @@ class Spaceship extends Phaser.GameObjects.Sprite {
             this.moveSpeed *= -1;
         }
         // move spaceship 
-        this.x -= this.moveSpeed;
+        if (this.ufo) {
+            this.x -= this.moveSpeed * 1.3;
+        } else {
+            this.x -= this.moveSpeed;
+        }
 
         // wrap from left to right edge
         if (this.x <= 0 - this.width*2) {
-            this.reset();
             if (this.ufo) {
+                this.resetOtherSide();
+                this.flipped = !this.flipped;
                 this.y += borderUISize * 2;
+                if (this.y >= borderUISize*9 + borderPadding) this.y = borderUISize*5 + borderPadding;
+            } else {
+                this.reset();
             }
         } else if (this.x >= game.config.width + this.width) {
-            this.resetOtherSide();
             if (this.ufo) {
+                this.reset();
+                this.flipped = !this.flipped;
                 this.y += borderUISize * 2;
+                if (this.y >= borderUISize*9 + borderPadding) this.y = borderUISize*5 + borderPadding;
+            } else {
+                this.resetOtherSide();
             }
+            
         }
 
         if (this.y > borderUISize*12) {

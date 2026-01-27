@@ -9,10 +9,10 @@ class Play extends Phaser.Scene {
         this.bg1 = this.add.tileSprite(0, 0, 640, 480, "bg1").setOrigin(0, 0);
         this.bg2 = this.add.tileSprite(0, 0, 640, 480, "bg2").setOrigin(0, 0);
         // green UI background
-        this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
+        this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0xFF0000).setOrigin(0, 0);
         // add rocket (p1)
         this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, "rocket").setOrigin(0.5, 0);
-        // add 3 spaceships
+        // add 3 spaceships (plus ufo)
 
         this.ships = this.add.group();
 
@@ -26,9 +26,7 @@ class Play extends Phaser.Scene {
         // the ufo
         let ufo = new Spaceship(this, game.config.width, borderUISize*5 + borderPadding, "ufo", 0, 100).setOrigin(0,0);
         this.ships.add(ufo);
-        this.ufoTimer = this.time.delayedCall(Math.floor(Math.random() * 5000), () => {
-            console.log("add ufo");
-        }, null, this);
+
         // white borders
         let border1 = this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
         let border2 = this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
@@ -66,10 +64,11 @@ class Play extends Phaser.Scene {
         this.gameOver = false;
 
         // 60-second play clock
-        scoreConfig.fixedWidth = 0;
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
+            scoreConfig.fixedWidth = 0;
+            scoreConfig.align = "center";
             this.add.text(game.config.width/2, game.config.height/2, "GAME OVER", scoreConfig).setOrigin(0.5);
-            this.add.text(game.config.width/2, game.config.height/2 + 64, "Press (R) to restart or <- for Menu", scoreConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2 + 64, "Press (R) to restart \nor <- for Menu", scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
 
@@ -79,8 +78,8 @@ class Play extends Phaser.Scene {
         scoreConfig.fixedWidth = 0;
         
         this.speedBoost = false;
-        this.speedDisplay = this.add.text(game.config.width, borderUISize + borderPadding*2, "SPEED UP!");
-        this.speedDisplay.setActive(false);
+        this.speedDisplay = this.add.text(game.config.width / 2, borderUISize + borderPadding*2, "SPEED UP!", scoreConfig).setOrigin(0.5, 0);
+        this.speedDisplay.setVisible(false);
     }
 
     update() {
@@ -88,7 +87,7 @@ class Play extends Phaser.Scene {
         this.timeDisplay.text = Math.ceil((game.settings.gameTimer - this.clock.elapsed) / 1000);
         // check key input for restart
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyRESET)) {
-            game.settings.spaceshipSpeed /= 1.5;
+            if (this.speedBoost) game.settings.spaceshipSpeed /= 1.5;
             this.scene.restart();
         }
         // or menu
@@ -120,7 +119,15 @@ class Play extends Phaser.Scene {
         // increase speed after 30 sec
         if (this.clock.elapsed > 30000 && !this.speedBoost) {
             this.speedBoost = true;
-            this.speedDisplay.setActive(true);
+            this.speedDisplay.setVisible(true);
+            this.time.addEvent({
+                delay: 450,
+                callback: () => {
+                    this.speedDisplay.setVisible(!this.speedDisplay.visible);
+                },
+                callbackScore: this,
+                repeat: 3
+            });
             game.settings.spaceshipSpeed *= 1.5;
         }
     }
