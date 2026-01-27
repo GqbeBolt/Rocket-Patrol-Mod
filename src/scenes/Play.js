@@ -37,10 +37,11 @@ class Play extends Phaser.Scene {
         border3.depth = 10000;
         border4.depth = 10000;
         // define keys
-        keyFIRE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyRESET = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+
+        this.pointer = this.input.activePointer;
 
         // initialize score
         this.p1Score = 0;
@@ -129,6 +130,17 @@ class Play extends Phaser.Scene {
                 repeat: 3
             });
             game.settings.spaceshipSpeed *= 1.5;
+        }
+        // fire rocket on mouse down
+        if (this.pointer.primaryDown) {
+            this.p1Rocket.fire();
+        }
+        // move rocket pos to mouse pos
+        if (!this.p1Rocket.isFiring) {
+            this.p1Rocket.x = this.pointer.worldX;
+            if (this.pointer.worldX > this.p1Rocket.width) {
+                
+            }
         }
     }
 
