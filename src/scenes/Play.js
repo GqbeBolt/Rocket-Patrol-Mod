@@ -149,8 +149,14 @@ class Play extends Phaser.Scene {
         //temp hide ship
         ship.alpha = 0;
         // create explosion at ships pos
-        let boom = this.add.sprite(ship.x, ship.y, "explosion").setOrigin(0, 0);
-        boom.anims.play("explode");
+        let explodeObj = "explosion";
+        let explodeAnim = "explode";
+        if (ship.ufo) {
+            explodeObj += "UFO";
+            explodeAnim += "UFO";
+        }
+        let boom = this.add.sprite(ship.x, ship.y, explodeObj).setOrigin(0, 0);
+        boom.anims.play(explodeAnim);
         boom.on("animationcomplete", () => {
             ship.reset();
             ship.alpha = 1;

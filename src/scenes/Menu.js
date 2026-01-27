@@ -19,6 +19,13 @@ class Menu extends Phaser.Scene {
             endFrame: 9,
         });
 
+        this.load.spritesheet("explosionUFO",  "./assets/explosionSmal.png", {
+            frameWidth: 32,
+            frameHeight: 16,
+            startFrame: 0,
+            endFrame: 9,
+        });
+
         // load audio
         this.load.audio("sfx-select", "./assets/sfx-select.wav");
         this.load.audio("sfx-explosion", "./assets/sfx-explosion.wav");
@@ -32,6 +39,11 @@ class Menu extends Phaser.Scene {
             frameRate: 30,
         });
 
+        this.anims.create({
+            key: "explodeUFO",
+            frames: this.anims.generateFrameNumbers("explosionUFO", {start: 0, end: 9, first: 0}),
+            frameRate: 30,
+        });
 
         let menuConfig = {
             fontFamily: "Courier",
