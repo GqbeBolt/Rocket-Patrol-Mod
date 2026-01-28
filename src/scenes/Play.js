@@ -24,7 +24,7 @@ class Play extends Phaser.Scene {
         }, null, this);
         this.ships.add(new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*6, "spaceship", 0, 10).setOrigin(0,0));
         // the ufo
-        let ufo = new Spaceship(this, game.config.width, borderUISize*5 + borderPadding, "ufo", 0, 100).setOrigin(0,0);
+        let ufo = new Spaceship(this, game.config.width, borderUISize*5 + borderPadding, "ufo", 0, 50).setOrigin(0,0);
         this.ships.add(ufo);
 
         // white borders
@@ -131,15 +131,22 @@ class Play extends Phaser.Scene {
             });
             game.settings.spaceshipSpeed *= 1.5;
         }
-        // fire rocket on mouse down
-        if (this.pointer.primaryDown) {
-            this.p1Rocket.fire();
-        }
-        // move rocket pos to mouse pos
-        if (!this.p1Rocket.isFiring) {
-            this.p1Rocket.x = this.pointer.worldX;
-            if (this.pointer.worldX > this.p1Rocket.width) {
-                
+
+        if (!this.gameOver) {
+            // fire rocket on mouse down
+            if (this.pointer.primaryDown) {
+                this.p1Rocket.fire();
+            }
+            // move rocket pos to mouse pos
+            if (!this.p1Rocket.isFiring) {
+                this.p1Rocket.x = this.pointer.worldX;
+                if (this.pointer.worldX < this.p1Rocket.width + borderPadding*3) {
+                    console.log("left");
+                    this.p1Rocket.x = this.p1Rocket.width + borderPadding*3;
+                } else if (this.pointer.worldX > game.config.width - this.p1Rocket.width - borderPadding*3) {
+                    console.log("right");
+                    this.p1Rocket.x = game.config.width - this.p1Rocket.width - borderPadding*3;
+                }
             }
         }
     }
