@@ -9,7 +9,7 @@ class Play extends Phaser.Scene {
         this.bg1 = this.add.tileSprite(0, 0, 640, 480, "bg1").setOrigin(0, 0);
         this.bg2 = this.add.tileSprite(0, 0, 640, 480, "bg2").setOrigin(0, 0);
         // green UI background
-        this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0xFF0000).setOrigin(0, 0);
+        this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0xFF2525).setOrigin(0, 0);
         // add rocket (p1)
         this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, "rocket").setOrigin(0.5, 0);
         // add 3 spaceships (plus ufo)
@@ -49,8 +49,8 @@ class Play extends Phaser.Scene {
         let scoreConfig = {
             fontFamily: "Courier",
             fontSize: "28px",
-            backgroundColor: "#F3B141",
-            color: "#843605",
+            backgroundColor: "#68BAC9",
+            color: "#034955",
             align: "right",
             padding: {
                 top: 5,
