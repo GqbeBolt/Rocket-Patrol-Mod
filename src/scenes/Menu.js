@@ -65,6 +65,10 @@ class Menu extends Phaser.Scene {
         // menuConfig.backgroundColor = "#FF0000";
         // menuConfig.color = "#FFFFFF";
         // this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, "Press <- for Novice or -> for Expert", menuConfig).setOrigin(0.5);
+        this.bg0 = this.add.tileSprite(0, 0, 640, 480, "bg0").setOrigin(0, 0);
+        this.bg1 = this.add.tileSprite(0, 0, 640, 480, "bg1").setOrigin(0, 0);
+        this.bg2 = this.add.tileSprite(0, 0, 640, 480, "bg2").setOrigin(0, 0);
+        this.add.sprite(0, 0, "menu").setOrigin(0, 0);
 
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
